@@ -1,0 +1,43 @@
+<infinispan
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:infinispan:config:13.0 http://www.infinispan.org/schemas/infinispan-config-13.0.xsd
+                            urn:infinispan:config:store:jdbc:13.0 http://www.infinispan.org/schemas/infinispan-cachestore-jdbc-config-13.0.xsd
+                          urn:org:jgroups http://www.jgroups.org/schema/jgroups-4.0.xsd"
+        xmlns="urn:infinispan:config:13.0"
+        xmlns:ispn="urn:infinispan:config:13.0">
+    <!-- This is a sample way of setting up a distributed cache in a cluster with native. Note that UDP is not yet
+         supported, so we have to use something like TCPPING for discovery -->
+    <jgroups>
+        <stack name="tcpping" extends="tcp">
+            <MPING ispn:stack.combine="REMOVE" xmlns="urn:org:jgroups"/>
+            <TCPPING async_discovery="true"
+                     initial_hosts="${initial_hosts:127.0.0.1[7800],127.0.0.1[7801]}"
+                     port_range="0" ispn:stack.combine="INSERT_AFTER" ispn:stack.position="TCP"
+                     xmlns="urn:org:jgroups"/>
+        </stack>
+    </jgroups>
+
+    <cache-container name="blueeyes" default-cache="dist">
+        <transport cluster="blueeyes" stack="tcpping" machine="blueeyes"/>
+        <serialization>
+            <context-initializer class="org.acme.TestSchemaImpl" />
+        </serialization>
+        <local-cache name="dist"/>
+        <distributed-cache-configuration name="distributed-cache-config">
+            <locking isolation="REPEATABLE_READ"/>
+            <transaction mode="FULL_XA" locking="OPTIMISTIC"
+                         transaction-manager-lookup="org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup"/>
+            <memory storage="OFF_HEAP"/>
+        </distributed-cache-configuration>
+        <distributed-cache name="DistributedIdCache" configuration="distributed-cache-config"/>
+        <distributed-cache name="DistributedKeyCache" configuration="distributed-cache-config"/>
+        <local-cache-configuration name="local-cache-config">
+            <locking isolation="REPEATABLE_READ"/>
+            <transaction mode="FULL_XA" locking="OPTIMISTIC"
+                         transaction-manager-lookup="org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup"/>
+            <memory storage="OFF_HEAP"/>
+        </local-cache-configuration>
+        <local-cache name="LocalIdCache" configuration="local-cache-config"/>
+        <local-cache name="LocalKeyCache" configuration="local-cache-config"/>
+    </cache-container>
+</infinispan>
