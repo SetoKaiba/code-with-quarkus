@@ -4,9 +4,7 @@ import org.infinispan.protostream.annotations.ProtoFactory;
 import org.infinispan.protostream.annotations.ProtoField;
 
 public class Test {
-    @ProtoField(1)
     private String id;
-    @ProtoField(2)
     private String name;
 
     @ProtoFactory
@@ -15,14 +13,15 @@ public class Test {
         this.name = name;
     }
 
+    @ProtoField(1)
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
 
+    @ProtoField(2)
     public String getName() {
         return name;
     }
