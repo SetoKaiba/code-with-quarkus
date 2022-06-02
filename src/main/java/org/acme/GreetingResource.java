@@ -27,8 +27,11 @@ public class GreetingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String test() {
         Cache<String, Object> idCache = embeddedCacheManager.getCache("DistributedIdCache");
-        Test test = new Test("id", "name");
+        Test test = new Test();
+        test.setId("test");
+        test.setName("test");
         idCache.put("haha", test);
+        System.out.println(idCache.get("haha"));
         return "Hello from RESTEasy Reactive";
     }
 }

@@ -1,17 +1,10 @@
 package org.acme;
 
-import org.infinispan.protostream.annotations.ProtoFactory;
 import org.infinispan.protostream.annotations.ProtoField;
 
 public class Test {
     private String id;
     private String name;
-
-    @ProtoFactory
-    public Test(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     @ProtoField(1)
     public String getId() {
@@ -28,5 +21,13 @@ public class Test {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

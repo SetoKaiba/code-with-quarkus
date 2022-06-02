@@ -17,6 +17,7 @@ dependencies {
     implementation "org.infinispan:infinispan-cachestore-jdbc:${infinispanVersion}"
     implementation "org.infinispan:infinispan-quarkus-embedded:${infinispanVersion}"
     implementation 'org.infinispan:infinispan-query'
+    compileOnly  'org.infinispan.protostream:protostream-processor:4.4.3.Final'
     annotationProcessor  'org.infinispan.protostream:protostream-processor:4.4.3.Final'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
