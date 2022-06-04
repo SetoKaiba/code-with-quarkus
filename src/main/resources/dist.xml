@@ -19,9 +19,6 @@
 
     <cache-container name="blueeyes" default-cache="dist">
         <transport cluster="blueeyes" stack="tcpping" machine="blueeyes"/>
-        <serialization>
-            <context-initializer class="org.acme.TestSchemaImpl" />
-        </serialization>
         <local-cache name="dist"/>
         <distributed-cache-configuration name="distributed-cache-config">
             <locking isolation="REPEATABLE_READ"/>
