@@ -124,6 +124,7 @@ public class GreetingResource {
 
         @Override
         public void run() {
+            // inject fields with BeanManager here
             try {
                 System.out.println(this.toString() + test);
                 System.out.println(this.toString() + testAppScope);
